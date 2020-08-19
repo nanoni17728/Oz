@@ -1,0 +1,12 @@
+{
+  "name": "oz",
+  "version": "0.1.0",
+  "description": "webapp for photographic filters",
+  "main": "main.js",
+  "repository": "git@github.com:nanoni17728/oz.git",
+  "author": "nanoni <nanoni@riseup.net>",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "shadow-cljs": "^2.10.21"
+  }
+}
