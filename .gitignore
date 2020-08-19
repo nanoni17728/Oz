@@ -1,0 +1,15 @@
+#Project specific
+public/
+
+#Clojurescript
+.shadow-cljs/
+
+#dev tools
+.calva/
+.clj-kondo/
+node_modules/
+
+#temp files
+*~
+*.swp
+*.swo
