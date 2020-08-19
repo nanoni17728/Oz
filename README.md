@@ -16,7 +16,9 @@ This codebase uses [shadow-cljs] as its main build tool. Run either `npx shadow-
 
 License & Contributing
 ------------------------
-Oz is published under the GPLv3 license. For more informations, see the [LICENSE](LICENSE) file or a summary on [choosealicense.com](https://choosealicense.com/licenses/gpl-3.0/)
+Copyright © 2020 Nanoni
+
+Oz is published under the GNU Affero General Public License. For more informations, see the [LICENSE](LICENSE) file or a more readable summary at [choosealicense.com](https://choosealicense.com/licenses/agpl-3.0/)
 
 This is a small prototype and as such I may not accept any pull request but feel free to fork away.
 
