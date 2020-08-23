@@ -11,4 +11,5 @@
  :builds {:app {:target :browser
                 :output-dir "public/js"
                 :asset-path "/js"
+                :build-hooks [(utils.build/copy-resources!)]
                 :modules {:main {:init-fn app.main/main!}}}}}
