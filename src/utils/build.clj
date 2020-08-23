@@ -8,6 +8,6 @@
 
 (defn copy-resources!
   {:shadow.build/stage :compile-finish}
-  [build-state & args]
+  [build-state]
   (io/copy (io/file "src/resources/index.html") (io/file "public/index.html"))
   build-state)
