@@ -8,7 +8,7 @@
 
 (enable-console-print!)
 
-(def red-percent (atom 100))
+(def amount (atom 1.0))
 (def canvas (.getElementById js/document "picture"))
 (def ctx (.getContext canvas "2d"))
 (def img (js/Image.))
@@ -21,8 +21,13 @@
                      (.drawImage ctx img 0 0 width height))))
 (set! (.-src img) "parrot.jpg")
 
+(defn test-watcher
+  [key watched old-state new-state]
+  (js/console.log "key:" (str key) "watched:" (str watched) "old-state:" (str old-state) "new-state:" (str new-state)))
+(add-watch amount :watcher test-watcher)
+
 (rum/defc slider []
-  [:input {:type "range" :min 0 :max 100 :defaultValue "100" :onChange (fn [e] (reset! red-percent (.. e -target -value)))}])
+  [:input {:type "range" :min 0.0 :max 1.0 :step 0.01 :defaultValue (str @amount) :onChange (fn [e] (reset! amount (.. e -target -value)))}])
 
 (defn main!
   []
