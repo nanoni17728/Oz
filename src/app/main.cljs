@@ -4,7 +4,8 @@
 ;;; You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 (ns app.main
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [utils.Uint8ClampedArray :as u8]))
 
 (enable-console-print!)
 
@@ -12,18 +13,25 @@
 (def canvas (.getElementById js/document "picture"))
 (def ctx (.getContext canvas "2d"))
 (def img (js/Image.))
-(.addEventListener img "load"
-                   (fn []
-                     (let [width  (/ (.-width img) 2)
-                           height (/ (.-height img) 2)]
-                       (set! (.-width canvas) width)
-                       (set! (.-height canvas) height)
-                     (.drawImage ctx img 0 0 width height))))
+
+(defn after-load
+  []
+  (let [width  (/ (.-width img) 2)
+        height (/ (.-height img) 2)]
+    (set! (.-width canvas) width)
+    (set! (.-height canvas) height)
+    (def original (.getImageData ctx 0 0 width height))
+    (.drawImage ctx img 0 0 width height)
+    (.putImageData ctx 
+                  (js/ImageData. (u8/fill (.-data original) (* 255 @amount)) (.-width original)) 0 0)))
+(.addEventListener img "load" after-load)
 (set! (.-src img) "parrot.jpg")
 
 (defn test-watcher
   [key watched old-state new-state]
-  (js/console.log "key:" (str key) "watched:" (str watched) "old-state:" (str old-state) "new-state:" (str new-state)))
+  (.putImageData ctx
+                 (js/ImageData. (u8/fill (.-data original) (* 100 new-state)) (.-width original)) 0 0)
+  #(js/console.log "key:" (str key) "watched:" (str watched) "old-state:" (str old-state) "new-state:" (str new-state)))
 (add-watch amount :watcher test-watcher)
 
 (rum/defc slider []
