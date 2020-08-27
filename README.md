@@ -14,7 +14,7 @@ It should work on every major OS but make sure all the tools are in your PATH. I
 
 This codebase uses [shadow-cljs] as its main build tool. Clone this repository, run `yarn install` to fetch the dependencies then `yarn shadow-cljs release app` and you're good to go!
 
-All the files needed to be served by your http server are in the `public/` folder.
+All the files needed to be served by your http server will be populated inside the `public/` folder.
 
 License & Contributing
 ------------------------
