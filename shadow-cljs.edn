@@ -4,7 +4,7 @@
 ;;; You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 {:source-paths ["src"]
- :dependencies [[rum "0.12.3"]
+ :dependencies [[rum "0.12.3" :exclusions [cljsjs/react cljsjs/react-dom]]
                 [clj-kondo "2020.07.29"]
                 [cider/cider-nrepl "0.25.3"]]
  :dev-http {8008 "public"}
@@ -12,4 +12,4 @@
                 :output-dir "public/js"
                 :asset-path "/js"
                 :build-hooks [(utils.build/copy-resources!)]
-                :modules {:main {:init-fn app.main/main!}}}}}
+                :modules {:main {:init-fn app.main/-main!}}}}}

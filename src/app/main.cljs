@@ -4,47 +4,43 @@
 ;;; You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 (ns app.main
-  (:require [rum.core :as rum]
-            [utils.Uint8ClampedArray :as u8]))
+  (:require [goog.events :as events]
+            [goog.dom :as dom]))
 
 (enable-console-print!)
 
-
-(def amount (atom 1.0))
-(def canvas (.getElementById js/document "picture"))
-(def ctx (.getContext canvas "2d"))
-(def img (js/Image.))
+(defonce filter-amount (atom 1.0))
+(defonce canvas (dom/getElement "picture"))
+(defonce ctx (.getContext canvas "2d"))
+(defonce img (js/Image.))
+(defonce slider (dom/getElement "slider"))
+(defonce original (js/ImageData. 1 1))
+(declare clj-data)
 
 (defn multiply [data]
-  (map (partial unchecked-multiply @amount) data))
+  (map (partial unchecked-multiply @filter-amount) data))
 
-(defn callback [value index array]
-  (aset array index (* @amount value)))
-
-(defn after-load
+(defn processing-image
   []
   (let [width  (/ (.-width img) 2)
         height (/ (.-height img) 2)]
     (set! (.-width canvas) width)
     (set! (.-height canvas) height)
     (.drawImage ctx img 0 0 width height)
-    (def original (.getImageData ctx 0 0 width height))
-    (def clj-data (vec (js->clj (.-data original))))))
+    (set! original (.getImageData ctx 0 0 width height))
+    (set! clj-data (vec (js->clj (.-data original))))))
 
-(.addEventListener img "load" after-load)
-(set! (.-src img) "parrot.jpg")
-
-(defn test-watcher
-  [key watched old-state new-state]
+(defn apply-filter-amount []
   (.putImageData ctx
-                 (js/ImageData. (.from js/Uint8ClampedArray (clj->js (multiply clj-data))) (.-width original)) 0 0)
-  #_(js/console.log "key:" (str key) "watched:" (str watched) "old-state:" (str old-state) "new-state:" (str new-state)))
-(add-watch amount :watcher test-watcher)
+    (js/ImageData. (.from js/Uint8ClampedArray (clj->js (multiply clj-data))) (.-width original)) 0 0))
 
-(rum/defc slider []
-  [:input {:type "range" :min 0.0 :max 1.0 :step 0.01 :defaultValue (str @amount) :onChange (fn [e] (reset! amount (.. e -target -value)))}])
+(add-watch filter-amount :apply apply-filter-amount)
 
-(defn main!
+(defn -main!
   []
-  (rum/mount (slider) (.getElementById js/document "hook"))
-  (js/console.log "Hello World! This is a test"))
+  (events/listen js/document "DOMContentLoaded"
+    (fn []
+      (events/listen img "load" processing-image)
+      (set! (.-src img) "parrot.jpg")
+      (set! (.-onchange slider) (fn [e] (reset! filter-amount (.. e -target -value))))
+      (js/console.log "Hello World! This is a test"))))
