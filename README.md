@@ -8,11 +8,13 @@ Build & Requirements
 To build the application you'll need to get:
 * A [JVM] (both Oracle's and OpenJDK works)
 * [Node.js] (the current LTS − 12.18.3 − will do)
-* Optional, but I recommend you to use [Yarn] as your package manager instead of NPM.
+* The [Yarn] package manager
 
-It should work on every major OS but make sure all the tools are in your PATH. If you're able to autocomplete `java` and `npm`/`yarn` from your terminal you should be good to go.
+It should work on every major OS but make sure all the tools are in your PATH. If you're able to autocomplete `java` and `yarn` from your terminal you should be good to go.
 
-This codebase uses [shadow-cljs] as its main build tool. Run either `npx shadow-cljs release app` or `yarn shadow-cljs release app` and you're good to go!
+This codebase uses [shadow-cljs] as its main build tool. Clone this repository, run `yarn install` to fetch the dependencies then `yarn shadow-cljs release app` and you're good to go!
+
+All the files needed to be served by your http server are in the `public/` folder.
 
 License & Contributing
 ------------------------
