@@ -7,7 +7,7 @@
   (:require [clojure.java.io :as io]))
 
 (defn copy-resources!
-  {:shadow.build/stage :compile-finish}
+  {:shadow.build/stage :flush}
   [build-state]
   (io/copy (io/file "src/resources/index.html") (io/file "public/index.html"))
   (io/copy (io/file "src/resources/parrot.jpg") (io/file "public/parrot.jpg"))
