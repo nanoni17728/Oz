@@ -4,7 +4,7 @@
   "description": "webapp for photographic filters",
   "main": "main.js",
   "repository": "git@github.com:nanoni17728/oz.git",
-  "author": "nanoni <nanoni@riseup.net>",
+  "author": "nanoni17728 <nanoni@riseup.net>",
   "license": "AGPL-3.0-or-later",
   "dependencies": {},
   "devDependencies": {
